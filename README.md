@@ -41,13 +41,13 @@ https://github.com/user-attachments/assets/d892233f-c173-4b1b-b873-db0f1285d75d
 
 ### Additional scene
 
-In addition to the scene described in the research paper, we have prepared another novel view synthesis scene:
+In addition to the scene described in the research paper, we have prepared another novel view synthesis scene showing comparable results:
 
 https://github.com/user-attachments/assets/cf025dab-1cf5-4cd0-9068-ecba2301ac53
 
 ## Conclusion
 
-Using the presented approach, we can train NeRF-like models based on precomputed camera intrinsic and the recorded camera extrinsic from the UAV. Compared to the conventional SfM-based reconstruction process, we reconstruct an airborne scenery with considerably improved performance (our preprocessing is four orders of magnitude faster for 854 images) and comparable or slightly worse quality (depending on the underlying NeRF-like model). In addition, this process allows us to have a data preparation for airborne recordings with only linear runtime (based on the flight log) instead of exponential runtime required to match all individual features of the images, as used in SfM and it is independent of visual features. In the context of the last points, our pipeline should also work out with the created thermal frames that a recorded with the multi-spectral cameras. Initial experiments indicate that SfM cannot be used with that data.
+Using the presented approach, we can train NeRF-like models based on precomputed camera intrinsic and the recorded camera extrinsic from the UAV. Compared to the conventional SfM-based reconstruction process, we reconstruct an airborne scenery with considerably improved performance (our preprocessing is four orders of magnitude faster for 854 images) and comparable or slightly worse quality (depending on the underlying NeRF-like model). In addition, this process allows us to have a data preparation for airborne recordings with linear runtime (based on the flight log) instead of exponential runtime required in SfM to match all individual features of the images. Additionally, our approach is independent of visual features. Like that, our pipeline should also work out with the recorded thermal videos from the used multi-spectral cameras. Initial experiments indicate that SfM cannot be used with that data.
 
 
 |                      | SfM                                     | Ours                        |
