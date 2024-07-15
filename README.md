@@ -12,24 +12,18 @@ _Abstract: For a few years now, radiance fields and especially neural radiance f
 
 ## Overview
 
-The proposed pipeline relies on automated UAV flights utilizing DJI-manufactured devices. These UAVs are equipped to capture (multi-spectral) image/video data while simultaneously logging the camera extrinsics based on global positions and global orientations of both the drone and the camera gimbal. The global position is expressed as WGS84 coordinates consisting of longitude, latitude, and altitude. DJI provides two types of log files:
-- Flight log (binary encoded; can be accessed using tools like [Airdata](https://airdata.com/)) at 10 Hz with 13-digit positional precision (~ 2 cm spatial precision)
-- Video log (.srt file; has to be activated in DJI Pilot app: Settings > Camera > Advanced Camera Settings > Video Subtitles) at 29.97 Hz with 5-digit positional precision (~ 1 m spatial precision)
+The proposed pipeline relies on automated UAV flights utilizing DJI-manufactured devices. These UAVs are equipped to capture (multi-spectral) image/video data while simultaneously logging the camera extrinsics based on global positions and global orientations of both the drone and the camera gimbal. The global position is expressed as WGS84 coordinates consisting of longitude, latitude, and altitude. The longitude and latitude are converted to a relative, local coordinate system using the geodetic distance between each position and a reference position (e.g., flight start or any other reference coordinate); the altitude is relative to the start.
 
-When flying with a typical flight speed of 5 m/s the low frequency of the flight log is not sufficient, since it would result in approximately one position every 50 cm. On the other hand the low-precision position in the video log is also not sufficient. Because of that, our pipeline uses a time- and position-based optimization approach to synchronize both log files, allowing to have a high precision at a high frequency. In combination with camera intrinsics from previous calibration, the so created camera extrinsics are the basis for training novel view synthesis models like NeRF or Gaussian Splatting.
+DJI utilizes the sub rip text (.srt) data format to log meta information at 29.97 Hz for video recordings, encompassing the mentioned global camera position and orientation next to additional information per video frame. However, the position data is limited to 5-digit precision, approximately leading to a 1 m spatial precision. Yet, there exists a proprietary flight log file offering higher spatial precision using a 13-digit representation albeit at a 10 Hz frequency for the whole flight (can be accessed using tools like [Airdata](https://airdata.com/)) -- also including periods with no video recordings, such as the start of the drone, flying to the first waypoint, returning to the home position, and landing. When flying with a typical flight speed of 5 m/s the low frequency of the flight log is not sufficient, since it would result in approximately one position every 50 cm. To attain precise global positioning data for the camera's extrinsic parameters of every individual video frame, we synchronize both files based on available timestamps and an optimization that minimizes the overall distances between the 13- and 5-digit  positions. Afterward, we use linear interpolation to impute missing high-precision values at 29.97 Hz, allowing us to make use of the high precision and especially the high accuracy offered by real-time kinematics, resulting in an accuracy of 1/1.5 cm + 1 ppm, horizontally and vertically (cf. DJI's specification). In combination with camera intrinsics from a previous calibration, the so created camera extrinsics are suitable as basis for training novel view synthesis models like NeRF or Gaussian Splatting.
 
 ![sync](./images/sync.svg)
 
 
+## Evaluation 
 
+To assess our method, we reconstruct camera poses with SfM and compare it to our pipeline to use it as input for scene synthesis using two NeRF-like models implemented in Nerfstudio: NeRF and Gaussian Splatting. We conducted three UAV flights with a speed of 3 m/s and the same starting point, recording RGB videos at 29.97 FPS, each flight pointing the camera on a central elliptical building over a water surface from different perspectives: a frontal view at 0°, a diagonal view at 45°, and a nadir view with a 90° gimbal pitch. This initial dataset consists of 2561 frames (4K resolution), which are undistorted, scaled down and cropped to 1024 * 839 pixels using the camera's intrinsics from previous SfM-based calibrations, as well as resampled to 10 FPS (854 images) and 2 FPS (171 images). 
 
-|                      | SfM                                     | Ours                        |
-|----------------------|-----------------------------------------|-----------------------------|
-| Runtime Complexity   | Exponential                             | Linear                      |
-| Runtime (854 images) | 511 min                                 | 2.54 sec                    |
-| Quality              | Ground Truth                            | Comparable / slightly worse |
-| Features             | Intrinsics, Extrinsics, Sparse 3D model | Extrinsics                  |
-
+For the SfM-based reconstruction, we employ Colmap 3.7 with default settings to extract SIFT features, perform exhaustive feature matching, and generate a sparse 3D model using its mapper based on the created initial dataset. Conversely, our airborne processing pipeline is used for reading and synchronizing the log files of the flights, enabling direct reconstruction of camera extrinsics. Both approaches are executed with precise timing measurements. Subsequently, we convert the created sparse models for the 10 FPS dataset from COLMAP's format to Nerfstudio's JSON representation and train NeRF-like models for additional visual comparison. 
 
 ## Results
 
@@ -39,7 +33,7 @@ Both techniques result in similar camera poses with slight variations. To quanti
 
 ![positions](./images/positions.png)
 
-The qualitative comparison of the trained NeRFs (Nerfstudio's nerfacto model in the default 6GB size) shows comparable qualities of the synthesized novel views using ours and the SfM-based reconstruction with both e.g., having problems in the roof area or the meadow in front of the building (c.f. Figure \ref{fig:a} and \ref{fig:b}). However, with GS (Nerfstudio's splatfacto model in the default 6GB size), SfM-based reconstruction presents notable advantages (e.g. bottom left corner of the building) owing to the presence of reconstructed sparse 3D points as seed information in the SfM reconstruction only. In contrast, our method relies on randomly initialized geometries
+The qualitative comparison of the trained NeRFs (Nerfstudio's nerfacto model in the default 6GB size) shows comparable qualities of the synthesized novel views using ours and the SfM-based reconstruction with both e.g., having problems in the roof area or the meadow in front of the building. However, with Gaussian Splatting (Nerfstudio's splatfacto model in the default 6GB size), SfM-based reconstruction presents notable advantages (e.g. bottom left corner of the building) owing to the presence of reconstructed sparse 3D points as seed information in the SfM reconstruction only. In contrast, our method relies on randomly initialized geometries
 
 ![result](./images/result.svg)
 
@@ -51,7 +45,17 @@ In addition to the scene described in the research paper, we have prepared anoth
 
 https://github.com/user-attachments/assets/cf025dab-1cf5-4cd0-9068-ecba2301ac53
 
+## Conclusion
 
+Using the presented approach, we can train NeRF-like models based on precomputed camera intrinsic and the recorded camera extrinsic from the UAV. Compared to the conventional SfM-based reconstruction process, we reconstruct an airborne scenery with considerably improved performance (our preprocessing is four orders of magnitude faster for 854 images) and comparable or slightly worse quality (depending on the underlying NeRF-like model). In addition, this process allows us to have a data preparation for airborne recordings with only linear runtime (based on the flight log) instead of exponential runtime required to match all individual features of the images, as used in SfM and it is independent of visual features. In the context of the last points, our pipeline should also work out with the created thermal frames that a recorded with the multi-spectral cameras. Initial experiments indicate that SfM cannot be used with that data.
+
+
+|                      | SfM                                     | Ours                        |
+|----------------------|-----------------------------------------|-----------------------------|
+| Runtime Complexity   | Exponential                             | Linear                      |
+| Runtime (854 images) | 511 min                                 | 2.54 sec                    |
+| Quality              | Ground Truth                            | Comparable / slightly worse |
+| Features             | Intrinsics, Extrinsics, Sparse 3D model | Extrinsics                  |
 
 
 ## Bibtex
