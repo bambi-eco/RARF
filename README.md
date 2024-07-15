@@ -25,6 +25,7 @@ To assess our method, we reconstruct camera poses with SfM and compare it to our
 
 For the SfM-based reconstruction, we employ Colmap 3.7 with default settings to extract SIFT features, perform exhaustive feature matching, and generate a sparse 3D model using its mapper based on the created initial dataset. Conversely, our airborne processing pipeline is used for reading and synchronizing the log files of the flights, enabling direct reconstruction of camera extrinsics. Both approaches are executed with precise timing measurements. Subsequently, we convert the created sparse models for the 10 FPS dataset from COLMAP's format to Nerfstudio's JSON representation and train NeRF-like models for additional visual comparison. 
 
+
 ## Results
 
 The evaluation is executed on a Windows 10 system with an AMD Ryzen Threadripper 2990WX CPU, four Nvidia RTX 2080 GPUs, and 128 GB RAM. The SfM-based reconstruction requires 511.273 min for the 10 FPS dataset, with 0.25 min for feature extraction, 7.477 min for the exhaustive matching, and 503.546 min for the actual reconstruction. For the 2 FPS dataset, the process requires 9.916 min, which consists of 0.066 min for feature extraction, 0.294 min for feature matching, and 9.556 min for the reconstruction. In comparison, our pipeline utilizes the log files created by the drone in flight. This conversion process takes 2.54 sec for the 10 FPS dataset and 2.48 sec for the 2 FPS version.
@@ -37,13 +38,21 @@ The qualitative comparison of the trained NeRFs (Nerfstudio's nerfacto model in 
 
 ![result](./images/result.svg)
 
-https://github.com/user-attachments/assets/d892233f-c173-4b1b-b873-db0f1285d75d
+<video>
+<source src="https://zenodo.org/records/12743840/preview/uas.mp4" type="video/mp4">
+</video>
 
 ### Additional scene
 
 In addition to the scene described in the research paper, we have prepared another novel view synthesis scene showing comparable results:
 
-https://github.com/user-attachments/assets/cf025dab-1cf5-4cd0-9068-ecba2301ac53
+<video>
+<source src="https://zenodo.org/records/12743840/preview/church.mp4" type="video/mp4">
+</video>
+
+## Material
+
+The used videos and log files are published on [Zenodo](https://zenodo.org/records/12743840) as replication package.
 
 ## Conclusion
 
@@ -77,5 +86,5 @@ Using the presented approach, we can train NeRF-like models based on precomputed
 
 ## Funding and Acknowledgments
 
-This research is funded by the Austrian Research Promotion Agency FFG (project _[BAMBI](http://www.bambi.eco/)_; program number: 892231) within the funding program Ai4Green, for which the budget is provided by the Federal Republic of Austria. 
+This research is funded by the Austrian Research Promotion Agency FFG (project _[BAMBI](http://www.bambi.eco/); program number: 892231) within the funding program Ai4Green, for which the budget is provided by the Federal Republic of Austria. 
 
