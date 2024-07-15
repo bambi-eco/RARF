@@ -62,7 +62,7 @@ Using the presented approach, we can train NeRF-like models based on precomputed
 
 ```
 @inproceedings{rarf,
-    author = {Praschl, Christoph and Böss, Leo and Schedl, David C.},
+    author = {Praschl, Christoph and B{\"o}ss, Leopold and Schedl, David C.},
     title = {Reconstructionless Airborne Radiance Fields},
     year = {2024},
     publisher = {Association for Computing Machinery},
@@ -77,5 +77,5 @@ Using the presented approach, we can train NeRF-like models based on precomputed
 
 ## Funding and Acknowledgments
 
-This research is funded by the Austrian Research Promotion Agency FFG (project _BAMBI_; program number: 892231) within the funding program Ai4Green, for which the budget is provided by the Federal Republic of Austria. 
+This research is funded by the Austrian Research Promotion Agency FFG (project _[BAMBI](http://www.bambi.eco/)_; program number: 892231) within the funding program Ai4Green, for which the budget is provided by the Federal Republic of Austria. 
 
