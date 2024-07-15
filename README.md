@@ -39,6 +39,7 @@ The qualitative comparison of the trained NeRFs (Nerfstudio's nerfacto model in 
 ![result](./images/result.svg)
 
 https://github.com/user-attachments/assets/d892233f-c173-4b1b-b873-db0f1285d75d
+
 <video width="960" height="540" controls loop="" muted="">
 <source src="https://zenodo.org/records/12743840/files/uas.mp4">
 </video>
@@ -48,6 +49,7 @@ https://github.com/user-attachments/assets/d892233f-c173-4b1b-b873-db0f1285d75d
 In addition to the scene described in the research paper, we have prepared another novel view synthesis scene showing comparable results:
 
 https://github.com/user-attachments/assets/cf025dab-1cf5-4cd0-9068-ecba2301ac53
+
 <video width="960" height="540" controls loop="" muted="">
 <source src="https://zenodo.org/records/12743840/files/church.mp4">
 </video>
