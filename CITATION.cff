@@ -1,0 +1,32 @@
+authors:
+ - family-names: "Praschl"
+   given-names: "Christoph"
+   email: "christoph.praschl@fh-hagenberg.at"
+   orcid: "https://orcid.org/0000-0002-9711-4818"
+   affiliation: "University of Applied Sciences Upper Austria"
+ - family-names: "Böss"
+   given-names: "Leopold"
+   email: "leopold.boess@fh-hagenberg.at"
+   orcid: "https://orcid.org/0009-0001-5177-0342"
+   affiliation: "University of Applied Sciences Upper Austria"
+ - family-names: "Schedl"
+   given-names: "David C."
+   email: "david.schedl@fh-hagenberg.at"
+   orcid: "https://orcid.org/0000-0002-7621-3526"
+   affiliation: "University of Applied Sciences Upper Austria"
+cff-version: 1.2.0
+date-released: 2024-07-15
+doi: 10.1145/3641234.3671077
+keywords:
+  - radiance fields
+  - nerf
+  - novel view synthesis
+  - gaussian splatting
+  - uav
+license: MIT
+message: "If you use this software, please cite it as below."
+repository-code: "https://github.com/bambi-eco/RARF/"
+title: "Reconstructionless Airborne Radiance Fields"
+type: software
+url: "https://github.com/bambi-eco/RARF"
+version: 1.0.0
