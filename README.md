@@ -1,4 +1,4 @@
-[![Static Badge](https://img.shields.io/badge/DOI-10.1145%2F3641234.3671077-blue)](https://doi.org/10.1145/3641234.3671077) [![Static Badge](https://img.shields.io/badge/Webpage-bambi--eco.github.io%2FRARF%2F-blue)](https://bambi-eco.github.io/RARF) ![Static Badge](https://img.shields.io/badge/data-10.5281%2Fzenodo.12743840-green) ![Static Badge](https://img.shields.io/badge/code-https%3A%2F%2Fgithub.com%2Fbambi--eco%2FRARF-green)
+[![Static Badge](https://img.shields.io/badge/DOI-10.1145%2F3641234.3671077-blue)](https://doi.org/10.1145/3641234.3671077) [![Static Badge](https://img.shields.io/badge/Webpage-bambi--eco.github.io%2FRARF%2F-blue)](https://bambi-eco.github.io/RARF) ![Static Badge](https://img.shields.io/badge/Data-10.5281%2Fzenodo.12743840-green) ![Static Badge](https://img.shields.io/badge/Code-https%3A%2F%2Fgithub.com%2Fbambi--eco%2FRARF-green)
 
 # Reconstructionless Airborne Radiance Fields
 
