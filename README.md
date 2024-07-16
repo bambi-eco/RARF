@@ -6,7 +6,7 @@ Christoph Praschl, Leopold Böss, David C. Schedl
 
 This repository contains the official authors implementation associated with the paper "Reconstructionless Airborne Radiance Fields", which can be found [here](https://doi.org/10.1145/3641234.3671077) published at [SIGGRAPH 2024](https://s2024.siggraph.org/).
 
-![sync](./images/header.svg)
+![sync](./images/header.png)
 
 _Abstract: For a few years now, radiance fields and especially neural radiance fields (NeRF) represent a cutting-edge advancement in computer graphics, enabling the generation of high-quality novel views for scenes captured from various angles through multiple photos or videos. Instead of traditional methods that rely on geometric representations or explicit scene meshes, NeRF leverages neural networks to directly model the volumetric scene function. Like this, the approach has dramatically transformed the landscape of novel-view synthesis, offering unprecedented realism and flexibility in rendering complex scenes. However, the training of NeRF models is typically based on computationally intensive image-based reconstructions of camera positions and visual features of the addressed scenes using Structure from Motion (SfM). In airborne imaging, camera poses are already explicitly available by exact global navigation satellite systems (i.e., GPS) and internal sensors of aerial vehicles. In this work, we introduce a novel processing pipeline designed to effectively harness image and sensor data captured by uncrewed aerial vehicles (UAVs) to train NeRF-like models without needing SfM._
 
@@ -34,7 +34,7 @@ Both techniques result in similar camera poses with slight variations. To quanti
 
 ![positions](./images/positions.png)
 
-The qualitative comparison of the trained NeRFs (Nerfstudio's nerfacto model in the default 6GB size) shows comparable qualities of the synthesized novel views using ours and the SfM-based reconstruction with both e.g., having problems in the roof area or the meadow in front of the building. However, with Gaussian Splatting (Nerfstudio's splatfacto model in the default 6GB size), SfM-based reconstruction presents notable advantages (e.g. bottom left corner of the building) owing to the presence of reconstructed sparse 3D points as seed information in the SfM reconstruction only. In contrast, our method relies on randomly initialized geometries
+The qualitative comparison of the trained NeRFs (Nerfstudio's nerfacto model in the default 6GB size) shows comparable qualities of the synthesized novel views using ours and the SfM-based reconstruction with both e.g., having problems in the roof area or the meadow in front of the building. However, with Gaussian Splatting (Nerfstudio's splatfacto model in the default 6GB size), SfM-based reconstruction presents notable advantages (e.g. bottom left corner of the building) owing to the presence of reconstructed sparse 3D points as seed information in the SfM reconstruction only. In contrast, our method relies on randomly initialized geometries.
 
 ![result](./images/result.svg)
 
@@ -90,5 +90,5 @@ Using the presented approach, we can train NeRF-like models based on precomputed
 
 ## Funding and Acknowledgments
 
-This research is funded by the Austrian Research Promotion Agency FFG (project _[BAMBI](http://www.bambi.eco/); program number: 892231) within the funding program Ai4Green, for which the budget is provided by the Federal Republic of Austria. 
+This research is funded by the Austrian Research Promotion Agency FFG (project _[BAMBI](http://www.bambi.eco/)_; program number: 892231) within the funding program Ai4Green, for which the budget is provided by the Federal Republic of Austria. 
 
