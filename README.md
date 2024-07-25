@@ -87,6 +87,18 @@ For example:
 python extract_colmap.py video1.mp4 video2.mp4 dem_config.json airdata.csv --sampling_rate 5 --output_dir /path/to/output
 ```
 
+with the dem_config.json looking like:
+
+```json
+{
+  "origin_wgs84": {
+        "latitude": 48.352418,
+        "longitude": 14.507083999999999,
+        "altitude": 0
+    }
+}
+```
+
 
 ### colmap_to_nerfstudio.py
 Converts a Colmap reconstruction to the transform-format used by Nerfstudio.
