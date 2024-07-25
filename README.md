@@ -70,6 +70,44 @@ Using the presented approach, we can train NeRF-like models based on precomputed
 | Quality              | Ground Truth                            | Comparable / slightly worse |
 | Features             | Intrinsics, Extrinsics, Sparse 3D model | Extrinsics                  |
 
+## Script Usage
+
+### extract_colmap.py
+Extracts a Colmap reconstruction from video, SRT, DEM, and AirData data. 
+Arguments:
+- `video_files`: Paths to video files. The respective SRT files are assumed to share the same name.
+- `dem_config_file`: Path to the DEM config JSON file. This config is used to obtain a DEMs origin location.
+It requires a property "origin_wgs84" which features the values "longitude" (float), "latitude" (float), and "altitude" (nullable float).
+- `airdata_file`: Path to the AirData CSV file.
+- `output_dir`: Output destination (default=./output)
+- `-s` or `--sampling_rate`: The step size when extracting frames from the videos (default=3). A value of 0 or lower causes all frames to be extracted.
+
+For example:
+```bash
+python extract_colmap.py video1.mp4 video2.mp4 dem_config.json airdata.csv --sampling_rate 5 --output_dir /path/to/output
+```
+
+
+### colmap_to_nerfstudio.py
+Converts a Colmap reconstruction to the transform-format used by Nerfstudio.
+Arguments:
+- `camera_file`: Path to the Colmap camera file (txt, bin).
+- `image_file`: Path to the Colmap images file (txt, bin).
+- `output_dir`: Output destination (default=./output).
+- `image_file_dir`: Directory containing the images (default=./images).
+
+For example:
+```bash
+python colmap_to_nerfstudio.py camera.txt images.txt --output_dir /path/to/output --image_file_dir /path/to/images
+```
+
+The required camera file is not created by the extraction script and needs to be supplied manually.
+However, the extraction script relies on assigning the ID 1 to the respective camera. \
+For instance, the file used for our experiments looks as follows:
+```text
+1 OPENCV 3840 2160 2888.17822265625 2819.316162109375 1929.0179443359375 1070.7803955078125 0.13853585720062256 -0.25508561730384827 0.0002033660130109638 -0.0009057472343556583
+```
+
 
 ## Bibtex
 
